@@ -67,4 +67,10 @@ TWILIO_FROM_NUMBER=+15005550006
 
 ## Deployment and Docker prerequisites
 
-Provide the designated GitHub repository URL and an already provisioned free hosting target/domain. No paid resources will be created. Existing workflows and deployment scripts remain prepared, not executed, until those targets exist. Docker/WSL checks and exact installation blockers are recorded in evidence/ and docs/deployment/DEPLOYMENT.md. Keep cloud credentials outside source control, using deployment secrets or the protected host environment.
+The public source/deployment repositories, Docker/WSL verification and free HTTPS demo now have execution evidence. No paid resource was requested. The optional Render profile and its sleeping/expiry limits are in docs/deployment/RENDER_DEMO.md. Full production/SSH deployment remains separate. Keep all credentials outside source control and submission archives.
+
+## Render management and demo credentials
+
+Official API instructions: https://render.com/docs/api. Open https://dashboard.render.com/u/settings, choose Create API key, give it a name such as `FinCore Deployment`, select the intended workspace and required resource permissions, and generate it. Save the value only in the ignored local `.env` as `RENDER_API_KEY`. Never paste it into chat or deploy it as an application variable.
+
+The root `render.yaml` uses explicit Free plans and generates application secrets in protected Render environment variables. After deployment, those values were synchronized into the local `.env` with `RENDER_` prefixes. The actual demo login is `customer@fincore.test`; its password is `RENDER_DEMO_PASSWORD`. Management access uses `RENDER_SERVICE_ID` and `RENDER_WEB_ORIGIN`. The optional `.env.render` export contains only runtime settings and excludes `RENDER_API_KEY`; it is Git-ignored and excluded from the ZIP. Local and cloud demo passwords are distinct. No Gemini key is used.

@@ -8,6 +8,8 @@ Verified against official provider documentation on 25 November 2026. No paid re
 
 Your Render account can host the frontend on a free onrender.com subdomain, with the API/analytics/worker and authoritative database hosted elsewhere. `infrastructure/render/frontend.render.yaml` is an optional frontend-only configuration, not a claim that the full platform is deployed. Set a zero spend limit where available and do not attach/enable paid overage resources. Review current quotas in your Dashboard before enabling builds.
 
+Update, 26 November 2026: an optional shared-process **free demo** is now live at https://fincore-wallet-demo-nitinsharma.onrender.com and passed eight public browser tests. Its worker runs only while the web service is awake; its private free database expires on 26 December 2026 (IST). This avoids claiming a separate always-on free worker and preserves the original architecture for a suitable VM. See `RENDER_DEMO.md` and `evidence/render-deployment-status.json`.
+
 ## Suitable full-stack alternative
 
 [Oracle Always Free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) currently includes an eligible Ampere A1 allocation equivalent to 2 OCPUs and 12 GB RAM for Always Free tenancies. This is a reasonable candidate for the existing Docker Compose architecture. Capacity may be unavailable and idle instances may be reclaimed; it is not a paid production reliability guarantee. Use only resources labeled Always Free eligible and do not upgrade to paid shapes or exceed the displayed quotas.
