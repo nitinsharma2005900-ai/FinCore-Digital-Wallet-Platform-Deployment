@@ -21,7 +21,7 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
-          const e={POSTGRES_PASSWORD:'CI_Synthetic_Owner_Password_2026',DATABASE_PASSWORD:'CI_Synthetic_Application_Password_2026+=',DEMO_PASSWORD:process.env.DEMO_PASSWORD};
+          const e={POSTGRES_PASSWORD:'CI_Synthetic_Owner_Password_2026',DATABASE_PASSWORD:'CI_Synthetic_Application_Password_2026+=',DEMO_PASSWORD:process.env.DEMO_PASSWORD,SEED_DEMO:'true'};
           for(const key of ['JWT_ACCESS_SECRET','JWT_REFRESH_SECRET','MFA_SECRET','INTERNAL_SERVICE_SECRET','LOCAL_WEBHOOK_SECRET'])e[key]='CI_Synthetic_Secret_For_Container_Verification_2026';
           fs.writeFileSync('.env',Object.entries(e).map(([k,v])=>k+'='+v).join('\n')+'\n');
           JS
@@ -29,11 +29,21 @@ jobs:
       - run: docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml up -d
       - run: node scripts/wait-for-services.mjs http://127.0.0.1:3200/ready
       - run: npm run test:e2e -- --config playwright.hosted.config.ts
+      - name: Build the separate Next.js/API/worker runtime
+        run: docker build --build-arg NEXT_PUBLIC_API_URL=http://127.0.0.1:4101/api/v1 -f infrastructure/docker/Node.Dockerfile -t fincore-node:local .
+      - name: Start the separate services in an isolated Compose project
+        run: docker compose --env-file .env -p fincore-node-verify -f docker-compose.yml -f infrastructure/docker/compose.verify.yml -f infrastructure/docker/compose.runtime-check.yml up --no-build -d --wait --wait-timeout 180
+      - name: Verify Next.js server, API, Prisma and worker compatibility
+        env:
+          FINCORE_E2E_BASE_URL: http://127.0.0.1:3100
+          FINCORE_E2E_REPORT: evidence/node-runtime-browser-tests.xml
+        run: npm run test:e2e -- platform.spec.ts
       - name: Record container runtime
         if: always()
         run: |
           docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml ps --format json > evidence/render-demo-containers.json
           docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml logs --no-color > evidence/render-demo-container-logs.txt
+          docker compose --env-file .env -p fincore-node-verify -f docker-compose.yml -f infrastructure/docker/compose.verify.yml -f infrastructure/docker/compose.runtime-check.yml ps --all --format json > evidence/node-runtime-containers.json
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: 'render-demo-evidence-${{ github.sha }}', path: 'evidence/'}

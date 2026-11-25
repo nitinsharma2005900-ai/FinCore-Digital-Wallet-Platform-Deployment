@@ -24,6 +24,8 @@ RUN apk upgrade --no-cache && apk add --no-cache openssl ca-certificates postgre
 WORKDIR /app
 COPY services/financial-analytics/requirements.runtime.txt /tmp/requirements.txt
 RUN python3 -m venv /opt/analytics && /opt/analytics/bin/pip install --no-cache-dir -r /tmp/requirements.txt
+# Dependencies are installed at build time; the service never installs Python packages.
+RUN /opt/analytics/bin/python -m pip uninstall --yes pip && /opt/analytics/bin/python -c "import ensurepip, pathlib, shutil; shutil.rmtree(pathlib.Path(ensurepip.__file__).parent)"
 COPY --from=build --chown=node:node /app /app
 COPY --from=mailpit /mailpit /usr/local/bin/mailpit
 COPY --chown=node:node services/financial-analytics/app.py /app/services/financial-analytics/app.py
