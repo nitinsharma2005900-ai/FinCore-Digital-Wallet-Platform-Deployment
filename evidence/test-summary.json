@@ -23,6 +23,24 @@
       "failures": 0,
       "skipped": 0,
       "verified": true
+    },
+    "hostedProfile": {
+      "tests": 8,
+      "failures": 0,
+      "skipped": 0,
+      "verified": true
+    },
+    "renderContainer": {
+      "tests": 8,
+      "failures": 0,
+      "skipped": 0,
+      "verified": true
+    },
+    "renderCloud": {
+      "tests": 8,
+      "failures": 0,
+      "skipped": 0,
+      "verified": true
     }
   },
   "checks": [
@@ -41,51 +59,51 @@
       "completedAt": "2026-11-25T17:16:32.484Z"
     },
     {
-      "name": "lint",
-      "exitCode": 0,
-      "passed": true,
-      "elapsedSeconds": 6.709,
-      "completedAt": "2026-11-25T18:38:00.270Z"
-    },
-    {
-      "name": "typecheck",
-      "exitCode": 0,
-      "passed": true,
-      "elapsedSeconds": 15.145,
-      "completedAt": "2026-11-25T18:38:15.418Z"
-    },
-    {
       "name": "build",
       "exitCode": 0,
       "passed": true,
       "elapsedSeconds": 28.138,
       "completedAt": "2026-11-25T18:38:43.556Z"
+    },
+    {
+      "name": "lint",
+      "exitCode": 0,
+      "passed": true,
+      "elapsedSeconds": 8.268,
+      "completedAt": "2026-11-25T19:23:50.052Z"
+    },
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "passed": true,
+      "elapsedSeconds": 19.29,
+      "completedAt": "2026-11-25T19:24:09.344Z"
     }
   ],
   "coverage": {
     "lines": {
-      "total": 429,
-      "covered": 341,
+      "total": 433,
+      "covered": 345,
       "skipped": 0,
-      "pct": 79.48
+      "pct": 79.67
     },
     "statements": {
-      "total": 879,
-      "covered": 561,
+      "total": 886,
+      "covered": 565,
       "skipped": 0,
-      "pct": 63.82
+      "pct": 63.76
     },
     "functions": {
-      "total": 183,
+      "total": 185,
       "covered": 101,
       "skipped": 0,
-      "pct": 55.19
+      "pct": 54.59
     },
     "branches": {
-      "total": 505,
-      "covered": 256,
+      "total": 511,
+      "covered": 259,
       "skipped": 0,
-      "pct": 50.69
+      "pct": 50.68
     },
     "branchesTrue": {
       "total": 0,

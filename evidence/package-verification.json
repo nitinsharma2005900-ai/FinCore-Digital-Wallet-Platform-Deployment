@@ -1,7 +1,9 @@
 {
   "archive": "FinCore_Digital_Wallet_Platform.zip",
-  "bytes": 1654581,
+  "bytes": 2430518,
   "crcVerified": true,
   "extractionVerified": true,
-  "excludedSecretsAndRuntime": true
+  "excludedSecretsAndRuntime": true,
+  "privateValuesChecked": 24,
+  "privateValueScanPassed": true
 }

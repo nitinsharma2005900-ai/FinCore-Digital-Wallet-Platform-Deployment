@@ -1,0 +1,99 @@
+{
+  "checkedAt": "2026-11-25T19:32:19.721915+00:00",
+  "managementApiAuthenticated": true,
+  "webServiceCreated": true,
+  "webServiceCreation": "Automatic creation rejected by approval review; user then created the service using the validated Blueprint",
+  "publicApplicationUrl": "https://fincore-wallet-demo-nitinsharma.onrender.com",
+  "deploymentBranch": "deployment/render-free-demo",
+  "localProfileBrowserTests": {
+    "tests": 8,
+    "failures": 0,
+    "skipped": 0
+  },
+  "nodeTests": {
+    "tests": 19,
+    "failures": 0,
+    "skipped": 0
+  },
+  "containerProfileVerification": {
+    "workflowConclusion": "success",
+    "browserTests": 8,
+    "failures": 0,
+    "skipped": 0,
+    "imageBuilt": true,
+    "memoryLimitMiB": 512,
+    "evidence": "evidence/render-container-browser-tests.xml",
+    "verifiedCommit": "d4db93ba34062ac97d4b268530995cf1d0362a09"
+  },
+  "workflowUrl": "https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45684761591",
+  "resources": [
+    {
+      "id": "dpg-dc3j0k5g1s2s73djgvn0-a",
+      "name": "fincore-demo-db",
+      "plan": "free",
+      "status": "available",
+      "region": "singapore",
+      "expiresAt": "2026-12-25T19:00:32.291304Z",
+      "ipAllowList": []
+    },
+    {
+      "id": "red-dc3j0khksfps73a7abg0",
+      "name": "fincore-demo-redis",
+      "plan": "free",
+      "status": "available",
+      "region": "singapore",
+      "expiresAt": null,
+      "ipAllowList": []
+    }
+  ],
+  "userReportedWebServiceCreated": true,
+  "webServiceVisibleWithCurrentApiKey": true,
+  "blueprintValidation": {
+    "valid": true,
+    "endpoint": "https://api.render.com/v1/blueprints/validate",
+    "onlyFreePlansRequested": true,
+    "configuration": "render.yaml",
+    "deployButton": "https://render.com/deploy?repo=https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/tree/deployment/render-free-demo"
+  },
+  "userSuppliedAddressType": "private Redis datastore; not an HTTPS web service",
+  "publicDeploymentVerified": true,
+  "renderBuildStatus": "live",
+  "serviceId": "srv-dc3jcibl550s73ek405g",
+  "webServicePlan": "free",
+  "deployId": "dep-dc3jcirl550s73ek41n0",
+  "deployedCommit": "d4db93ba34062ac97d4b268530995cf1d0362a09",
+  "cloudBrowserTests": {
+    "tests": 8,
+    "failures": 0,
+    "skipped": 0,
+    "evidence": "evidence/render-cloud-browser-tests.xml"
+  },
+  "publicHealth": {
+    "/health": {
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "service": "fincore-api",
+        "simulation": true
+      }
+    },
+    "/ready": {
+      "status": 200,
+      "body": {
+        "data": {
+          "database": "ok",
+          "redis": "ok",
+          "analytics": "ok"
+        },
+        "requestId": "31d6eba8-7d90-40cb-8eea-137689808356"
+      }
+    }
+  },
+  "runtimeSecretsSynchronizedToIgnoredEnv": true,
+  "managementApiKeyNotDeployed": true,
+  "publicApiDocumentation": {
+    "url": "https://fincore-wallet-demo-nitinsharma.onrender.com/api-docs/",
+    "browserRendered": true,
+    "title": "FinCore Simulation API"
+  }
+}

@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="19" failures="0" errors="0" time="20.9165038">
-    <testsuite name="tests/frontend/http.test.ts" timestamp="2026-11-25T18:21:08.815Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="0.0620633">
-        <testcase classname="tests/frontend/http.test.ts" name="rotates once for simultaneous expired requests and retries with the new access token" time="0.0545384">
+<testsuites name="vitest tests" tests="19" failures="0" errors="0" time="35.0803156">
+    <testsuite name="tests/frontend/http.test.ts" timestamp="2026-11-25T19:13:35.649Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="0.07177">
+        <testcase classname="tests/frontend/http.test.ts" name="rotates once for simultaneous expired requests and retries with the new access token" time="0.0647002">
         </testcase>
-        <testcase classname="tests/frontend/http.test.ts" name="does not automatically retry a failed financial mutation" time="0.0045372">
-        </testcase>
-    </testsuite>
-    <testsuite name="tests/frontend/table.test.tsx" timestamp="2026-11-25T18:21:08.818Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="0.6971568">
-        <testcase classname="tests/frontend/table.test.tsx" name="filters records and paginates results without losing record details" time="0.588547">
-        </testcase>
-        <testcase classname="tests/frontend/table.test.tsx" name="shows a safe server error and allows correction" time="0.1055781">
+        <testcase classname="tests/frontend/http.test.ts" name="does not automatically retry a failed financial mutation" time="0.002809">
         </testcase>
     </testsuite>
-    <testsuite name="tests/integration/ledger.test.ts" timestamp="2026-11-25T18:21:08.820Z" hostname="Nitin" tests="4" failures="0" errors="0" skipped="0" time="1.098487">
-        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; posts once, detects conflicting reuse and preserves balances" time="0.1771689">
+    <testsuite name="tests/frontend/table.test.tsx" timestamp="2026-11-25T19:13:35.656Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="1.1566985">
+        <testcase classname="tests/frontend/table.test.tsx" name="filters records and paginates results without losing record details" time="0.9294286">
         </testcase>
-        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; serializes competing spends and rolls back insufficient funds" time="0.1183923">
-        </testcase>
-        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; rejects invalid precision and protects journal records" time="0.0636151">
-        </testcase>
-        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; verifies signatures and rejects tampering" time="0.0013743">
+        <testcase classname="tests/frontend/table.test.tsx" name="shows a safe server error and allows correction" time="0.2217985">
         </testcase>
     </testsuite>
-    <testsuite name="tests/integration/platform.test.ts" timestamp="2026-11-25T18:21:08.823Z" hostname="Nitin" tests="9" failures="0" errors="0" skipped="0" time="19.0467592">
-        <testcase classname="tests/integration/platform.test.ts" name="rejects unauthenticated access and role escalation at registration" time="0.0679612">
+    <testsuite name="tests/integration/ledger.test.ts" timestamp="2026-11-25T19:13:35.658Z" hostname="Nitin" tests="4" failures="0" errors="0" skipped="0" time="5.5357236">
+        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; posts once, detects conflicting reuse and preserves balances" time="0.3888862">
         </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="enforces ownership, validation and sensitive-action confirmation" time="0.0846407">
+        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; serializes competing spends and rolls back insufficient funds" time="0.2244951">
         </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="holds reduce available funds and release restores them" time="0.1674782">
+        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; rejects invalid precision and protects journal records" time="0.1290632">
         </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="supports transfers, details, CSV/PDF statements, disputes and reversal" time="0.5702675">
-        </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="handles signed webhook replay, mismatch, failed settlement and out-of-order delivery" time="0.4596368">
-        </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="rotates refresh cookies, detects replay and revokes the family" time="1.5435599">
-        </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="enforces MFA expiry, attempts and successful single use" time="3.1789968">
-        </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="serves OpenAPI for every registered contract" time="0.0090215">
-        </testcase>
-        <testcase classname="tests/integration/platform.test.ts" name="allows repeated successful refreshes and anonymous page loads while still limiting failed authentication" time="2.1718803">
+        <testcase classname="tests/integration/ledger.test.ts" name="PostgreSQL financial integrity &gt; verifies signatures and rejects tampering" time="0.0035971">
         </testcase>
     </testsuite>
-    <testsuite name="tests/integration/provider-boundaries.test.ts" timestamp="2026-11-25T18:21:08.827Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="0.0120375">
-        <testcase classname="tests/integration/provider-boundaries.test.ts" name="keeps exact Stripe minor units and rejects excess precision" time="0.0081551">
+    <testsuite name="tests/integration/platform.test.ts" timestamp="2026-11-25T19:13:35.663Z" hostname="Nitin" tests="9" failures="0" errors="0" skipped="0" time="28.3008399">
+        <testcase classname="tests/integration/platform.test.ts" name="rejects unauthenticated access and role escalation at registration" time="0.1376757">
         </testcase>
-        <testcase classname="tests/integration/provider-boundaries.test.ts" name="does not finalize pending, failed or canceled provider refunds" time="0.001038">
+        <testcase classname="tests/integration/platform.test.ts" name="enforces ownership, validation and sensitive-action confirmation" time="0.1298139">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="holds reduce available funds and release restores them" time="0.37068">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="supports transfers, details, CSV/PDF statements, disputes and reversal" time="0.5157295">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="handles signed webhook replay, mismatch, failed settlement and out-of-order delivery" time="0.6946874">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="rotates refresh cookies, detects replay and revokes the family" time="2.4917822">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="enforces MFA expiry, attempts and successful single use" time="4.6110322">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="serves OpenAPI for every registered contract" time="0.0159142">
+        </testcase>
+        <testcase classname="tests/integration/platform.test.ts" name="allows repeated successful refreshes and anonymous page loads while still limiting failed authentication" time="4.7608169">
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/integration/provider-boundaries.test.ts" timestamp="2026-11-25T19:13:35.669Z" hostname="Nitin" tests="2" failures="0" errors="0" skipped="0" time="0.0152836">
+        <testcase classname="tests/integration/provider-boundaries.test.ts" name="keeps exact Stripe minor units and rejects excess precision" time="0.0098325">
+        </testcase>
+        <testcase classname="tests/integration/provider-boundaries.test.ts" name="does not finalize pending, failed or canceled provider refunds" time="0.0013328">
         </testcase>
     </testsuite>
 </testsuites>

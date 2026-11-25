@@ -17,7 +17,7 @@ Local verification is distinct from external/cloud execution. No hosted results 
 | 11 | Tests, dependency/secret/image scans, versioned artifacts, provenance and approved deployment | .github/workflows/ci.yml; .github/workflows/deploy.yml | scripts/verify.mjs; actual GitHub Actions verify/images jobs | Local portion tested; external execution pending | evidence/checks.json; evidence/npm-audit.json; evidence/python-audit.json | IMPLEMENTED BUT NOT VERIFIED | Hosted verify job passed, but the image-security gate has unresolved OS advisories. Real run status is in evidence/github-status.json and raw findings in evidence/image-scan.json. No successful overall pipeline is claimed. |
 | 12 | Real PostgreSQL concurrency/integrity, API/security, Python, React and browser tests | tests/integration; tests/frontend; tests/e2e | npm test; npm run test:e2e; pytest | Verified local results below | evidence/node-tests.xml; evidence/python-tests.xml; evidence/browser-tests.xml | COMPLETE AND VERIFIED | Coverage is measured over included API/UI modules. Six container browser tests executed successfully; external-credential tests remain unexecuted. |
 | 13 | OpenAPI/Swagger/Postman and lifecycle, signatures, ledger and export documentation | apps/api/src/openapi.ts; scripts/contracts.ts; docs/API.md | tests/integration/platform.test.ts | Verified local results below | docs/openapi.json; postman/FinCore.postman_collection.json | COMPLETE AND VERIFIED | Response envelope schemas are broad rather than exhaustive per-domain response-field schemas. |
-| 14 | HTTPS deployment preparation, encrypted backups and isolated integrity-checked restore | scripts/recovery.py; infrastructure/nginx; docs/deployment/DEPLOYMENT.md | python scripts/recovery.py | Local portion tested; external execution pending | evidence/restore-drill.json | BLOCKED BY EXTERNAL CREDENTIALS | Local encrypted restore verified. Render free services do not support the full durable worker architecture. Free full-stack VM/subdomain setup requires manual account provisioning; no paid resource created. |
+| 14 | HTTPS deployment preparation, encrypted backups and isolated integrity-checked restore | scripts/recovery.py; infrastructure/nginx; docs/deployment/DEPLOYMENT.md | python scripts/recovery.py | Local portion tested; external execution pending | evidence/restore-drill.json | PARTIALLY VERIFIED; FREE DEMO DEPLOYED | Free HTTPS demonstration live at https://fincore-wallet-demo-nitinsharma.onrender.com; /health, /ready and eight public Chrome tests passed. Dedicated free PostgreSQL/Redis are private-only; runtime role is restricted. The service/worker sleep, Redis/Mailpit are ephemeral and the database expires 26 December 2026 (IST). Always-on production architecture, scheduled offsite recovery and complete deployment governance are not verified. No paid resource was requested. |
 | 15 | Duplicate payment, mismatched settlement, unbalanced posting, dependency timeout and suspicious-activity incidents | scripts/capstone.ts; scripts/notification-drill.ts | npm run capstone | Verified local results below | evidence/capstone.json; evidence/notification-recovery.json | COMPLETE AND VERIFIED | Incidents use synthetic local wallets only; no production incident or recording is claimed. |
 
 ## Actual execution summary
@@ -46,6 +46,24 @@ Local verification is distinct from external/cloud execution. No hosted results 
     "failures": 0,
     "skipped": 0,
     "verified": true
+  },
+  "hostedProfile": {
+    "tests": 8,
+    "failures": 0,
+    "skipped": 0,
+    "verified": true
+  },
+  "renderContainer": {
+    "tests": 8,
+    "failures": 0,
+    "skipped": 0,
+    "verified": true
+  },
+  "renderCloud": {
+    "tests": 8,
+    "failures": 0,
+    "skipped": 0,
+    "verified": true
   }
 }
 
@@ -65,25 +83,25 @@ Local verification is distinct from external/cloud execution. No hosted results 
     "completedAt": "2026-11-25T17:16:32.484Z"
   },
   {
-    "name": "lint",
-    "exitCode": 0,
-    "passed": true,
-    "elapsedSeconds": 6.709,
-    "completedAt": "2026-11-25T18:38:00.270Z"
-  },
-  {
-    "name": "typecheck",
-    "exitCode": 0,
-    "passed": true,
-    "elapsedSeconds": 15.145,
-    "completedAt": "2026-11-25T18:38:15.418Z"
-  },
-  {
     "name": "build",
     "exitCode": 0,
     "passed": true,
     "elapsedSeconds": 28.138,
     "completedAt": "2026-11-25T18:38:43.556Z"
+  },
+  {
+    "name": "lint",
+    "exitCode": 0,
+    "passed": true,
+    "elapsedSeconds": 8.268,
+    "completedAt": "2026-11-25T19:23:50.052Z"
+  },
+  {
+    "name": "typecheck",
+    "exitCode": 0,
+    "passed": true,
+    "elapsedSeconds": 19.29,
+    "completedAt": "2026-11-25T19:24:09.344Z"
   }
 ]
 
@@ -91,28 +109,28 @@ Coverage scope: API modules and React workspace component, not the whole applica
 
 {
   "lines": {
-    "total": 429,
-    "covered": 341,
+    "total": 433,
+    "covered": 345,
     "skipped": 0,
-    "pct": 79.48
+    "pct": 79.67
   },
   "statements": {
-    "total": 879,
-    "covered": 561,
+    "total": 886,
+    "covered": 565,
     "skipped": 0,
-    "pct": 63.82
+    "pct": 63.76
   },
   "functions": {
-    "total": 183,
+    "total": 185,
     "covered": 101,
     "skipped": 0,
-    "pct": 55.19
+    "pct": 54.59
   },
   "branches": {
-    "total": 505,
-    "covered": 256,
+    "total": 511,
+    "covered": 259,
     "skipped": 0,
-    "pct": 50.69
+    "pct": 50.68
   },
   "branchesTrue": {
     "total": 0,

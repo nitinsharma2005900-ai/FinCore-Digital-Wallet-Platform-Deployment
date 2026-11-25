@@ -4,7 +4,8 @@ from xml.etree import ElementTree as ET
 from xml.sax.saxutils import escape
 from reportlab.platypus import SimpleDocTemplate,Paragraph,Spacer,PageBreak
 from reportlab.lib.styles import getSampleStyleSheet
-import json,os,zipfile,tempfile
+import json,os,zipfile,tempfile,re
+from urllib.parse import urlsplit,unquote
 ROOT=Path(__file__).resolve().parents[1]
 def data(path,default=None):
     p=ROOT/path
@@ -18,6 +19,7 @@ results={name:junit(path) for name,path in [('node','evidence/node-tests.xml'),(
 results['containerBrowser']=junit('evidence/container-browser-tests.xml')
 if (ROOT/'evidence/hosted-browser-tests.xml').exists():results['hostedProfile']=junit('evidence/hosted-browser-tests.xml')
 if (ROOT/'evidence/render-container-browser-tests.xml').exists():results['renderContainer']=junit('evidence/render-container-browser-tests.xml')
+if (ROOT/'evidence/render-cloud-browser-tests.xml').exists():results['renderCloud']=junit('evidence/render-cloud-browser-tests.xml')
 checks=data('evidence/checks.json',[]);capstone=data('evidence/capstone.json',{});delivery=data('evidence/notification-recovery.json',{});coverage=data('coverage/coverage-summary.json',{}).get('total',{})
 docker=data('evidence/docker-runtime.json',{})
 names=['Financial customer frontend','Financial REST APIs','Double-entry ledger database','Financial identity and authorization','Python financial calculations','FastAPI risk analytics','Transfer consistency engine','Payment and notification integrations','Containerized financial stack','Git and change governance','Secure financial CI/CD','Ledger and payment testing','Financial API contracts','Secure deployment and recovery','Financial incident simulation']
@@ -28,7 +30,7 @@ def status(i):
     if i==8:return 'LOCAL SIMULATION ONLY'
     if i==9 and docker.get('verified') and junit('evidence/container-browser-tests.xml')['verified']:return 'COMPLETE AND VERIFIED'
     if i in (9,10,11):return 'IMPLEMENTED BUT NOT VERIFIED'
-    if i==14:return 'PARTIALLY VERIFIED; CLOUD DEPLOYMENT PENDING'
+    if i==14:return 'PARTIALLY VERIFIED; FREE DEMO DEPLOYED' if data('evidence/render-deployment-status.json',{}).get('publicDeploymentVerified') else 'PARTIALLY VERIFIED; CLOUD DEPLOYMENT PENDING'
     verified=results['python']['verified'] if i in (5,6) else results['browser']['verified'] if i==1 else bool(capstone.get('timeline')) if i==15 else results['node']['verified']
     if i==12:verified=all(r['verified'] for r in results.values())
     return 'COMPLETE AND VERIFIED' if verified else 'IMPLEMENTED BUT NOT VERIFIED'
@@ -37,7 +39,8 @@ if docker.get('verified'):limitations[9]='Isolated fincore-verify Compose stack 
 limitations[10]='Public repository published at github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform with user authorization. See evidence/github-protection-response.json for actual protection setup result; no independent review is fabricated.'
 limitations[11]='Hosted verify job passed, but the image-security gate has unresolved OS advisories. Real run status is in evidence/github-status.json and raw findings in evidence/image-scan.json. No successful overall pipeline is claimed.'
 limitations[14]='Local encrypted restore verified. Render free services do not support the full durable worker architecture. Free full-stack VM/subdomain setup requires manual account provisioning; no paid resource created.'
-if (ROOT/'evidence/render-deployment-status.json').exists():limitations[14]='Render API authenticated; dedicated free PostgreSQL/Redis created with private-only connection access. Optional demo container and browser checks verified separately. Automatic approval review rejected web-service creation; user reports manual creation, but no FinCore service/public HTTPS URL is visible to the current API key. Public deployment remains unverified. The free profile sleeps and its database expires after 30 days; it does not satisfy always-on production requirements.'
+if (ROOT/'evidence/render-deployment-status.json').exists():limitations[14]='Render API authenticated; dedicated free PostgreSQL/Redis created with private-only connection access. Optional demo container and browser checks verified separately. See evidence/render-deployment-status.json for actual web-service creation and public HTTPS verification. Until public checks pass, deployment remains unverified. The free profile sleeps and its database expires after 30 days; it does not satisfy always-on production requirements.'
+if data('evidence/render-deployment-status.json',{}).get('publicDeploymentVerified'):limitations[14]='Free HTTPS demonstration live at https://fincore-wallet-demo-nitinsharma.onrender.com; /health, /ready and eight public Chrome tests passed. Dedicated free PostgreSQL/Redis are private-only; runtime role is restricted. The service/worker sleep, Redis/Mailpit are ephemeral and the database expires 26 December 2026 (IST). Always-on production architecture, scheduled offsite recovery and complete deployment governance are not verified. No paid resource was requested.'
 limitations[12]='Coverage is measured over included API/UI modules. Six container browser tests executed successfully; external-credential tests remain unexecuted.'
 evidence=['evidence/browser-tests.xml; evidence/customer-browser.png','evidence/node-tests.xml','evidence/capstone.json; evidence/node-tests.xml','evidence/node-tests.xml','evidence/python-tests.xml; evidence/python-benchmark.json','evidence/python-tests.xml; evidence/capstone.json','evidence/node-tests.xml; evidence/capstone.json','evidence/notification-recovery.json; evidence/capstone.json','docs/deployment/DEPLOYMENT.md','evidence/git-history.txt','evidence/checks.json; evidence/npm-audit.json; evidence/python-audit.json','evidence/node-tests.xml; evidence/python-tests.xml; evidence/browser-tests.xml','docs/openapi.json; postman/FinCore.postman_collection.json','evidence/restore-drill.json','evidence/capstone.json; evidence/notification-recovery.json']
 tests=['tests/e2e/full-workflows.spec.ts; tests/e2e/platform.spec.ts; tests/e2e/management.spec.ts; tests/frontend/table.test.tsx','tests/integration/platform.test.ts','tests/integration/ledger.test.ts; scripts/capstone.ts','tests/integration/platform.test.ts','services/financial-analytics/test_app.py','services/financial-analytics/test_app.py; scripts/capstone.ts','tests/integration/ledger.test.ts','tests/integration/platform.test.ts; scripts/notification-drill.ts','Hosted image/Compose checks pending','Actual local Git hotfix and merge history','scripts/verify.mjs; hosted workflows pending','npm test; npm run test:e2e; pytest','tests/integration/platform.test.ts','python scripts/recovery.py','npm run capstone']
@@ -82,11 +85,23 @@ with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
             p=Path(directory)/name
             if name in ('.env','.coverage','package-verification.json') or (name.startswith('.env.') and name!='.env.example') or p.suffix in ('.zip','.log','.pyc','.tsbuildinfo','.enc','.backup'):continue
             z.write(p,str(p.relative_to(ROOT)))
+private_values=set()
+if (ROOT/'.env').exists():
+    for line in (ROOT/'.env').read_text(encoding='utf-8-sig').splitlines():
+        if '=' not in line or line.lstrip().startswith('#'):continue
+        key,value=line.split('=',1);value=value.strip().strip('\"\'')
+        if re.search(r'SECRET|TOKEN|PASSWORD|API_KEY|DATABASE_URL',key) and len(value)>=16:private_values.add(value)
+        if 'DATABASE_URL' in key:
+            password=urlsplit(value).password
+            if password and len(password)>=16:private_values.add(unquote(password))
 with tempfile.TemporaryDirectory(prefix='fincore-verify-') as target:
     with zipfile.ZipFile(archive) as z:
+        for name in z.namelist():
+            contents=z.read(name)
+            assert not any(value.encode() in contents for value in private_values),'Private environment value in archive member: '+name
         assert z.testzip() is None;z.extractall(target)
         for required in ['package.json','package-lock.json','.env.example','database/migrations/001_foundation.sql','docs/FinCore_Project_Report.pdf','docker-compose.yml','postman/FinCore.postman_collection.json']:assert (Path(target)/required).exists(),required
         assert not (Path(target)/'.env').exists()
-package={'archive':archive.name,'bytes':archive.stat().st_size,'crcVerified':True,'extractionVerified':True,'excludedSecretsAndRuntime':True}
+package={'archive':archive.name,'bytes':archive.stat().st_size,'crcVerified':True,'extractionVerified':True,'excludedSecretsAndRuntime':True,'privateValuesChecked':len(private_values),'privateValueScanPassed':True if private_values else None}
 (ROOT/'evidence/package-verification.json').write_text(json.dumps(package,indent=2))
 print(json.dumps({'suites':results,'package':package},indent=2))

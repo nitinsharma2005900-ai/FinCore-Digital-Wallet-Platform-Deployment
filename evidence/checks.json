@@ -14,24 +14,24 @@
     "completedAt": "2026-11-25T17:16:32.484Z"
   },
   {
-    "name": "lint",
-    "exitCode": 0,
-    "passed": true,
-    "elapsedSeconds": 6.709,
-    "completedAt": "2026-11-25T18:38:00.270Z"
-  },
-  {
-    "name": "typecheck",
-    "exitCode": 0,
-    "passed": true,
-    "elapsedSeconds": 15.145,
-    "completedAt": "2026-11-25T18:38:15.418Z"
-  },
-  {
     "name": "build",
     "exitCode": 0,
     "passed": true,
     "elapsedSeconds": 28.138,
     "completedAt": "2026-11-25T18:38:43.556Z"
+  },
+  {
+    "name": "lint",
+    "exitCode": 0,
+    "passed": true,
+    "elapsedSeconds": 8.268,
+    "completedAt": "2026-11-25T19:23:50.052Z"
+  },
+  {
+    "name": "typecheck",
+    "exitCode": 0,
+    "passed": true,
+    "elapsedSeconds": 19.29,
+    "completedAt": "2026-11-25T19:24:09.344Z"
   }
 ]
