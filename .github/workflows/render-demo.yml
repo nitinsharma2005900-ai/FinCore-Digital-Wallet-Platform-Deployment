@@ -1,0 +1,39 @@
+name: Free Render demo container verification
+on:
+  workflow_dispatch:
+  push:
+    branches: ['deployment/render-free-demo']
+    paths: ['infrastructure/render/**', 'apps/**', 'scripts/render*', 'services/**', 'tests/hosted/**', 'playwright.hosted.config.ts', '.github/workflows/render-demo.yml']
+permissions: {contents: read}
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DEMO_PASSWORD: CI_Synthetic_Demo_Password_2026
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Create isolated synthetic container verification settings
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');
+          const e={POSTGRES_PASSWORD:'CI_Synthetic_Owner_Password_2026',DATABASE_PASSWORD:'CI_Synthetic_Application_Password_2026',DEMO_PASSWORD:process.env.DEMO_PASSWORD};
+          for(const key of ['JWT_ACCESS_SECRET','JWT_REFRESH_SECRET','MFA_SECRET','INTERNAL_SERVICE_SECRET','LOCAL_WEBHOOK_SECRET'])e[key]='CI_Synthetic_Secret_For_Container_Verification_2026';
+          fs.writeFileSync('.env',Object.entries(e).map(([k,v])=>k+'='+v).join('\n')+'\n');
+          JS
+      - run: docker build -f infrastructure/render/Demo.Dockerfile -t fincore-render-demo:verified .
+      - run: docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml up -d
+      - run: node scripts/wait-for-services.mjs http://127.0.0.1:3200/ready
+      - run: npm run test:e2e -- --config playwright.hosted.config.ts
+      - name: Record container runtime
+        if: always()
+        run: |
+          docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml ps --format json > evidence/render-demo-containers.json
+          docker compose --env-file .env -f infrastructure/render/compose.demo.verify.yml logs --no-color > evidence/render-demo-container-logs.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: 'render-demo-evidence-${{ github.sha }}', path: 'evidence/'}
