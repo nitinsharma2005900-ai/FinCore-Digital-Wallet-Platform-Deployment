@@ -1,0 +1,22 @@
+<testsuites id="" name="" tests="8" failures="0" skipped="0" errors="0" time="40.35996900000001">
+<testsuite name="e2e\platform.spec.ts" timestamp="2026-11-25T19:13:07.471Z" hostname="" tests="6" failures="0" skipped="0" time="21.246" errors="0">
+<testcase name="customer funding, history, profile and statement controls" classname="e2e\platform.spec.ts" time="7.788">
+</testcase>
+<testcase name="support workspace" classname="e2e\platform.spec.ts" time="3.034">
+</testcase>
+<testcase name="operations workspace" classname="e2e\platform.spec.ts" time="2.349">
+</testcase>
+<testcase name="finance workspace" classname="e2e\platform.spec.ts" time="2.436">
+</testcase>
+<testcase name="admin workspace" classname="e2e\platform.spec.ts" time="3.777">
+</testcase>
+<testcase name="mobile navigation and visible simulation notice" classname="e2e\platform.spec.ts" time="1.862">
+</testcase>
+</testsuite>
+<testsuite name="hosted\demo.spec.ts" timestamp="2026-11-25T19:13:07.471Z" hostname="" tests="2" failures="0" skipped="0" time="7.698" errors="0">
+<testcase name="same-origin exported UI hydrates under CSP, refresh cookie survives reload, private files stay inaccessible" classname="hosted\demo.spec.ts" time="2.337">
+</testcase>
+<testcase name="hosted simulation funds a disposable customer, denies staff access and delivers to private Mailpit" classname="hosted\demo.spec.ts" time="5.361">
+</testcase>
+</testsuite>
+</testsuites>

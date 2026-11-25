@@ -1,0 +1,98 @@
+{
+  "before": {
+    "commit": "642707117b7cb3fc405a05944cce1b912fff4a8d",
+    "pushRun": 45687229469,
+    "pullRequestRun": 45687241336,
+    "os": {
+      "Family": "debian",
+      "Name": "13.8"
+    },
+    "highCriticalFindings": 55,
+    "fixedVersionsListed": 0
+  },
+  "remediation": {
+    "runtimeBase": "node:22.23.5-alpine3.24",
+    "prismaMuslTargets": [
+      "linux-musl-openssl-3.0.x",
+      "linux-musl-arm64-openssl-3.0.x"
+    ],
+    "unusedRuntimeToolsRemoved": [
+      "npm",
+      "npx",
+      "yarn",
+      "pip",
+      "ensurepip"
+    ],
+    "productionDependenciesOnly": true,
+    "scanner": "Trivy v0.76.2",
+    "threshold": "CRITICAL,HIGH",
+    "failureExitCode": 1,
+    "suppressionAdded": false
+  },
+  "verification": {
+    "commit": "b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5",
+    "push": {
+      "run": 45689845258,
+      "conclusion": "success",
+      "verify": "success",
+      "images": "success"
+    },
+    "pullRequest": {
+      "run": 45689856389,
+      "conclusion": "success",
+      "verify": "success",
+      "images": "success"
+    },
+    "runtimeRun": 45689845163,
+    "runtimeConclusion": "success",
+    "renderContainerBrowserTests": 8,
+    "separateRuntimeBrowserTests": 6,
+    "reports": [
+      {
+        "event": "push",
+        "report": "image-scan.json",
+        "image": "fincore:b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5",
+        "os": {
+          "Family": "alpine",
+          "Name": "3.24.4"
+        },
+        "highCriticalFindings": 0,
+        "secretFindings": 0
+      },
+      {
+        "event": "push",
+        "report": "render-image-scan.json",
+        "image": "fincore-render:b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5",
+        "os": {
+          "Family": "alpine",
+          "Name": "3.24.4"
+        },
+        "highCriticalFindings": 0,
+        "secretFindings": 0
+      },
+      {
+        "event": "pr",
+        "report": "image-scan-pr.json",
+        "image": "fincore:c16e30f9cbfc23d0313833f0907991b2b7d2ccad",
+        "os": {
+          "Family": "alpine",
+          "Name": "3.24.4"
+        },
+        "highCriticalFindings": 0,
+        "secretFindings": 0
+      },
+      {
+        "event": "pr",
+        "report": "render-image-scan-pr.json",
+        "image": "fincore-render:c16e30f9cbfc23d0313833f0907991b2b7d2ccad",
+        "os": {
+          "Family": "alpine",
+          "Name": "3.24.4"
+        },
+        "highCriticalFindings": 0,
+        "secretFindings": 0
+      }
+    ],
+    "provenanceAttestation": "passed in both image jobs"
+  }
+}

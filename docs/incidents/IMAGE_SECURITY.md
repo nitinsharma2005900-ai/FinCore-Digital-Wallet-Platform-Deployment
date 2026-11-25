@@ -1,11 +1,22 @@
-# Image scan findings and remediation
+# Image scan failure and verified remediation
 
-Actual hosted scan: run 45667185131, image aed962005cafd15c4af70c7cd01c52e43898fee3. The raw Trivy JSON is evidence/image-scan.json; its summary is evidence/image-scan-summary.json.
+Both `Financial quality gates / images` checks failed on commit `642707117b7cb3fc405a05944cce1b912fff4a8d`. The [push run](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45687229469) and [pull-request run](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45687241336) each reported 55 HIGH findings in Debian 13 runtime packages, with no fixed versions listed. This was a genuine security-gate failure. The original report is retained as `evidence/image-scan-before-remediation.json`.
 
-Application npm and Python scans passed, but the image scan correctly found additional OS and bundled package-manager issues. The older Debian base also included vulnerable global npm tooling. The runtime now uses Debian Trixie, removes unused global npm/npx, and starts Next.js directly through a Node CLI bootstrap. The later scan reports zero Node.js dependency findings, but still reports 56 OS findings, including one with a known fixed version (libzstd1 1.5.7+dfsg-1+deb13u1). An explicit runtime apt upgrade is added to apply available base-package fixes.
+## Changes
 
-The other findings in that captured report did not list fixed package versions. They have not been ignored or represented as resolved. The image gate remains exit-code 1 for HIGH/CRITICAL findings. A new build and scan are required to establish the remaining count after the upgrade; production deployment remains blocked until this gate is reviewed and passes. No false VEX assertion or blanket ignore file was added to turn the pipeline green.
+- Use the supported official `node:22.23.5-alpine3.24` runtime, apply current APK updates and install the required PostgreSQL client/OpenSSL packages. The Node major version, application code and database schema/migrations are preserved.
+- Generate Prisma's supported musl/OpenSSL 3 engines for x64 and ARM64 alongside the native build target. No database migration or data reset is needed.
+- Prune development dependencies from runtime images. Remove unused npm/npx/Yarn; after Python dependencies are installed, remove pip and its bundled ensurepip installer. The expanded Render scan had identified five additional HIGH findings in unused Python packaging components; the vulnerable files are absent from the final runtime.
+- Update Trivy to v0.76.2 and scan both the separate Node runtime and the actual Render image. Keep CRITICAL/HIGH, failure exit code 1, secret scanning, provenance and branch protection. No ignore file, blanket suppression, ignore-unfixed, severity reduction or continue-on-error bypass was introduced.
 
-The hosted verify job separately passed lint, type checks, PostgreSQL/API/component tests, Python tests, application builds, dependency scans, full-history secret scanning and browser tests. That does not make the overall workflow successful while its image job fails.
+## Actual verification
 
-Update: run 45668899068 scanned the upgraded image. The captured current report has 55 OS findings, zero findings with a fixed package version listed, and no Node dependency findings. The libzstd fix is no longer among the fixable findings. The strict image gate remains failed; this update does not assert that the remaining advisories are harmless.
+Commit `b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5` passed the complete [push workflow](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45689845258) and [pull-request workflow](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45689856389), including image scans and provenance. All four image reports contain zero HIGH/CRITICAL vulnerabilities and zero secret findings. `evidence/image-remediation.json` records commits, run IDs and report paths.
+
+The [runtime compatibility run](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45689845163) passed eight browser tests against the complete 512 MiB Render demo and six against the separate Next.js server/API/worker stack. It verifies Prisma, PostgreSQL migrations, Python analytics, startup without runtime package managers, funding, statements and role workspaces. Verification jobs also passed 19 API/frontend tests, eight Python tests and 14 native browser tests.
+
+Render was updated to that tested application commit without resetting the database or replacing its secrets. The live HTTPS application then passed readiness and all eight public browser tests again. Deployment/browser evidence is in `evidence/render-deployment-status.json` and `evidence/render-cloud-browser-tests.xml`.
+
+Windows had a Prisma DLL in use by the running local app. Client generation was verified in clean Linux CI rather than stopping that app to replace the DLL.
+
+Passing these scans establishes the captured results, not a permanent security certification. Independent review, production approval, external Stripe/Twilio execution and always-on hosting requirements remain separate.

@@ -1,0 +1,137 @@
+postgres-1  | The files belonging to this database system will be owned by user "postgres".
+postgres-1  | This user must also own the server process.
+postgres-1  |
+postgres-1  | The database cluster will be initialized with locale "en_US.utf8".
+postgres-1  | The default database encoding has accordingly been set to "UTF8".
+postgres-1  | The default text search configuration will be set to "english".
+postgres-1  |
+postgres-1  | Data page checksums are disabled.
+postgres-1  |
+postgres-1  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+postgres-1  | creating subdirectories ... ok
+postgres-1  | selecting dynamic shared memory implementation ... posix
+postgres-1  | selecting default "max_connections" ... 100
+postgres-1  | selecting default "shared_buffers" ... 128MB
+postgres-1  | selecting default time zone ... Etc/UTC
+postgres-1  | creating configuration files ... ok
+postgres-1  | running bootstrap script ... ok
+postgres-1  | performing post-bootstrap initialization ... ok
+postgres-1  | syncing data to disk ... ok
+postgres-1  |
+postgres-1  |
+postgres-1  | Success. You can now start the database server using:
+postgres-1  |
+postgres-1  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres-1  |
+postgres-1  | initdb: warning: enabling "trust" authentication for local connections
+postgres-1  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+postgres-1  | waiting for server to start....2026-11-25 19:26:26.932 UTC [48] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+postgres-1  | 2026-11-25 19:26:26.932 UTC [48] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-11-25 19:26:26.935 UTC [51] LOG:  database system was shut down at 2026-11-25 19:26:26 UTC
+postgres-1  | 2026-11-25 19:26:26.939 UTC [48] LOG:  database system is ready to accept connections
+postgres-1  |  done
+postgres-1  | server started
+postgres-1  | CREATE DATABASE
+postgres-1  |
+postgres-1  |
+postgres-1  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres-1  |
+postgres-1  | waiting for server to shut down...2026-11-25 19:26:27.120 UTC [48] LOG:  received fast shutdown request
+postgres-1  | .2026-11-25 19:26:27.120 UTC [48] LOG:  aborting any active transactions
+postgres-1  | 2026-11-25 19:26:27.123 UTC [48] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+postgres-1  | 2026-11-25 19:26:27.123 UTC [49] LOG:  shutting down
+postgres-1  | 2026-11-25 19:26:27.123 UTC [49] LOG:  checkpoint starting: shutdown immediate
+postgres-1  | 2026-11-25 19:26:27.139 UTC [49] LOG:  checkpoint complete: wrote 934 buffers (5.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.013 s, sync=0.002 s, total=0.016 s; sync files=301, longest=0.001 s, average=0.001 s; distance=4329 kB, estimate=4329 kB; lsn=0/193BDF0, redo lsn=0/193BDF0
+postgres-1  | 2026-11-25 19:26:27.146 UTC [48] LOG:  database system is shut down
+postgres-1  |  done
+postgres-1  | server stopped
+postgres-1  |
+postgres-1  | PostgreSQL init process complete; ready for start up.
+postgres-1  |
+postgres-1  | 2026-11-25 19:26:27.242 UTC [1] LOG:  starting PostgreSQL 17.12 (Debian 17.12-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+postgres-1  | 2026-11-25 19:26:27.242 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-1  | 2026-11-25 19:26:27.242 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-1  | 2026-11-25 19:26:27.243 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-11-25 19:26:27.245 UTC [64] LOG:  database system was shut down at 2026-11-25 19:26:27 UTC
+redis-1     | 1:C 25 Nov 2026 19:26:26.301 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis-1     | 1:C 25 Nov 2026 19:26:26.301 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1     | 1:C 25 Nov 2026 19:26:26.301 * Redis version=7.4.12, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1     | 1:C 25 Nov 2026 19:26:26.301 * Configuration loaded
+redis-1     | 1:M 25 Nov 2026 19:26:26.301 * monotonic clock: POSIX clock_gettime
+redis-1     | 1:M 25 Nov 2026 19:26:26.302 * Running mode=standalone, port=6379.
+redis-1     | 1:M 25 Nov 2026 19:26:26.302 * Server initialized
+redis-1     | 1:M 25 Nov 2026 19:26:26.302 * Ready to accept connections tcp
+postgres-1  | 2026-11-25 19:26:27.249 UTC [1] LOG:  database system is ready to accept connections
+demo-1  | psql:/app/database/migrations/001_foundation.sql:1: NOTICE:  relation "SchemaMigration" already exists, skipping
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE INDEX
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE TABLE
+demo-1  | CREATE FUNCTION
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE FUNCTION
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE FUNCTION
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE FUNCTION
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE FUNCTION
+demo-1  | CREATE TRIGGER
+demo-1  | CREATE TRIGGER
+demo-1  | REVOKE
+demo-1  | Applied 001_foundation.sql
+demo-1  | CREATE TABLE
+demo-1  | CREATE INDEX
+demo-1  | CREATE INDEX
+demo-1  | Applied 002_jobs.sql
+demo-1  | Hosted synthetic accounts ready. Credentials stay in the protected local/cloud environment.
+demo-1  | time="2026/11/25 19:26:30" level=info msg="[http] starting on 127.0.0.1:8025"
+demo-1  | time="2026/11/25 19:26:30" level=info msg="[http] accessible via http://127.0.0.1:8025/"
+demo-1  | time="2026/11/25 19:26:30" level=info msg="[smtpd] starting on 127.0.0.1:1025 (no encryption)"
+demo-1  | INFO:     Started server process [51]
+demo-1  | INFO:     Waiting for application startup.
+demo-1  | INFO:     Application startup complete.
+demo-1  | INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+demo-1  | {"level":30,"time":1795634791947,"pid":66,"hostname":"1dfd556488f6","msg":"BullMQ worker started"}
+demo-1  | Free hosted simulation: worker sleeps with this service; email stays in private Mailpit; free database expiry applies.
+demo-1  | {"level":30,"time":1795634792568,"pid":84,"hostname":"1dfd556488f6","port":10000,"msg":"FinCore API listening"}
+demo-1  | {"level":40,"time":1795634794998,"pid":84,"hostname":"1dfd556488f6","requestId":"47cdee5b-4c34-4fc2-a346-5df99c6877e0","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634797246,"pid":84,"hostname":"1dfd556488f6","requestId":"2fdd9821-522e-4f64-a87c-16504d578b94","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634798558,"pid":84,"hostname":"1dfd556488f6","requestId":"05eaa2f8-043b-4af2-b0c4-2386011cabd9","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634799887,"pid":84,"hostname":"1dfd556488f6","requestId":"c7266ef2-b3fa-444b-ba83-9454ec2dd766","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634801258,"pid":84,"hostname":"1dfd556488f6","requestId":"05d01326-e05c-4221-9ce4-baa8a2537050","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634802594,"pid":84,"hostname":"1dfd556488f6","requestId":"cdc0a52e-3c09-4191-b684-ab4df643b88b","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634803838,"pid":84,"hostname":"1dfd556488f6","requestId":"e21698f6-f7b4-4125-994f-698014e47207","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634805188,"pid":84,"hostname":"1dfd556488f6","requestId":"ea8bfdb0-9c2d-455b-a8bb-2125c391b860","status":401,"code":"NO_REFRESH_TOKEN","errorType":"Error","msg":"Request rejected"}
+demo-1  | {"level":40,"time":1795634805785,"pid":84,"hostname":"1dfd556488f6","requestId":"dafc7818-0cc7-48ff-afa5-3bf761ca98ab","status":403,"code":"FORBIDDEN","errorType":"Error","msg":"Request rejected"}

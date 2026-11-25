@@ -2,11 +2,19 @@
 
 Source repository: https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform
 
+Deployment repository: https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment
+
+Verified free HTTPS demo: https://fincore-wallet-demo-nitinsharma.onrender.com — eight public browser checks passed. Sleeps after inactivity; the database expires 26 December 2026 (IST). Demo credentials are stored privately in the local `.env` as `RENDER_DEMO_PASSWORD`.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/tree/deployment/render-free-demo)
+
+Optional free hosted **demonstration**: the button configures the web app, private database/cache and generated secrets. Review that every plan is Free before deploying your own copy. The service sleeps and its database expires after 30 days. See `docs/deployment/RENDER_DEMO.md` for the actual deployment evidence and production limitations.
+
 Free sandbox credential instructions: docs/SANDBOX_CREDENTIALS.md. Free hosting evaluation and manual setup: docs/deployment/FREE_HOSTING.md. No Gemini integration or paid service is required.
 
 Educational digital wallet. **Simulation Only – No Real Money.**
 
-Working local educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery and encrypted restore are verified. External sandbox execution, Docker runtime, hosted GitHub controls and cloud deployment remain explicitly unverified or blocked.
+Working educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery, encrypted restore, isolated container runs and the free HTTPS demonstration are verified. Push and pull-request workflows pass strict Node/Render image scans and provenance checks; no security gates were bypassed. Public repositories and branch protections are configured. External sandbox execution, independent review and always-on production deployment remain incomplete.
 
 The stack is Next.js/React/TypeScript, Express, PostgreSQL/Prisma, Redis/BullMQ and a separate Python FastAPI service. PostgreSQL 17 portable binaries, Redis and Mailpit are installed in ignored `.tools` for Windows development without administrator privileges.
 

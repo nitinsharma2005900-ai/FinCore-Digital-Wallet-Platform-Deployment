@@ -1,6 +1,14 @@
 {
-  "findings": 55,
+  "findings": 0,
   "fixAvailable": 0,
-  "sourceRun": "45668899068",
-  "gatePassed": false
+  "sourceRun": "45689845258",
+  "pullRequestRun": "45689856389",
+  "scanner": "Trivy v0.76.2",
+  "scannedRuntimes": [
+    "Next.js/API/worker",
+    "Render demo"
+  ],
+  "gatePassed": true,
+  "threshold": "CRITICAL,HIGH",
+  "suppressionsAdded": false
 }

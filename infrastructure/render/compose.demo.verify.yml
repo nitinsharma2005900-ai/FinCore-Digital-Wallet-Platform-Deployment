@@ -1,0 +1,37 @@
+name: fincore-render-verify
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: fincore_render_verify
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Required}
+    healthcheck: {test: [CMD-SHELL, "pg_isready -U postgres"], interval: 3s, timeout: 3s, retries: 30}
+    volumes: [demo_pgdata:/var/lib/postgresql/data]
+  redis:
+    image: redis:7-alpine
+    command: [redis-server, --maxmemory-policy, noeviction]
+    healthcheck: {test: [CMD, redis-cli, ping], interval: 3s, timeout: 3s, retries: 30}
+  demo:
+    image: fincore-render-demo:verified
+    mem_limit: 512m
+    environment:
+      NODE_ENV: production
+      FINCORE_HOSTED_DEMO: 'true'
+      FINCORE_SERVE_WEB: 'true'
+      PAYMENT_PROVIDER: local
+      MIGRATION_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/fincore_render_verify
+      RENDER_DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      RENDER_DEMO_PASSWORD: ${DEMO_PASSWORD}
+      REDIS_URL: redis://redis:6379
+      WEB_ORIGIN: http://127.0.0.1:3200
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      MFA_SECRET: ${MFA_SECRET}
+      INTERNAL_SERVICE_SECRET: ${INTERNAL_SERVICE_SECRET}
+      LOCAL_WEBHOOK_SECRET: ${LOCAL_WEBHOOK_SECRET}
+    ports: ['127.0.0.1:3200:10000']
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+volumes:
+  demo_pgdata:
