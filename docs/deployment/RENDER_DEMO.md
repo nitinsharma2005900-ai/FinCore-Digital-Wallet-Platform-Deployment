@@ -28,7 +28,11 @@ To finish the authorized free demo manually:
 
 1. In https://dashboard.render.com choose New > Web Service > Public Git repository and enter `https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment`.
 2. Select branch `deployment/render-free-demo`, runtime Docker, name `fincore-wallet-demo-nitinsharma`, region Singapore and the **Free** instance type.
-3. In Advanced settings set Dockerfile Path to `infrastructure/render/Demo.Dockerfile`, Docker Build Context to `.`, and Health Check Path to `/ready`. Keep automatic deploys off while the image-security/independent-review gates are unresolved.
+3. In Advanced settings set Dockerfile Path to `infrastructure/render/Demo.Dockerfile`, Docker Build Context to `.`, and Health Check Path to `/ready`. Keep automatic deploys off until independently reviewed production deployment is configured; push/PR image-security gates now pass.
 4. For manual creation, use Environment > Add from .env and paste the contents of the local ignored `.env.render` file. This generated file contains only this demo's runtime settings, not the Render management API key. The one-click Blueprint handles this automatically. Never commit or send this file through chat. Leave the existing PostgreSQL and Redis instances on Free.
 5. Create the web service. Its entrypoint applies migrations and initializes synthetic accounts; free one-off jobs/shell access are not required. If any paid plan, paid build option or upgrade is required, stop.
 6. After Render reports Live, copy the actual HTTPS URL and verify `/health`, `/ready` and the hosted browser suite against that URL. Until then, deployment remains incomplete. The cloud demo login is `customer@fincore.test` with the password stored as `RENDER_DEMO_PASSWORD` in the local `.env`.
+
+## Runtime security update
+
+The live service was updated to tested application commit b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5. The supported Node 22.23.5/Alpine 3.24 runtime uses current APK packages and Prisma musl/OpenSSL 3 engines. Production dependencies are installed before removing unused npm/Yarn and pip/ensurepip tooling. Both scanned runtime images have zero captured HIGH/CRITICAL vulnerabilities and zero secret findings on push and pull_request. All eight public HTTPS browser tests passed again after deployment. The database and existing secrets were preserved. See evidence/image-remediation.json and docs/incidents/IMAGE_SECURITY.md.

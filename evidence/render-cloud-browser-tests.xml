@@ -1,22 +1,22 @@
-<testsuites id="" name="" tests="8" failures="0" skipped="0" errors="0" time="56.261176">
-<testsuite name="e2e\platform.spec.ts" timestamp="2026-11-25T19:30:20.680Z" hostname="" tests="6" failures="0" skipped="0" time="33.23" errors="0">
-<testcase name="customer funding, history, profile and statement controls" classname="e2e\platform.spec.ts" time="8.089">
+<testsuites id="" name="" tests="8" failures="0" skipped="0" errors="0" time="68.33411600000001">
+<testsuite name="e2e\platform.spec.ts" timestamp="2026-11-25T20:05:10.089Z" hostname="" tests="6" failures="0" skipped="0" time="43.63" errors="0">
+<testcase name="customer funding, history, profile and statement controls" classname="e2e\platform.spec.ts" time="15.279">
 </testcase>
-<testcase name="support workspace" classname="e2e\platform.spec.ts" time="4.777">
+<testcase name="support workspace" classname="e2e\platform.spec.ts" time="6.379">
 </testcase>
-<testcase name="operations workspace" classname="e2e\platform.spec.ts" time="5.339">
+<testcase name="operations workspace" classname="e2e\platform.spec.ts" time="5.035">
 </testcase>
-<testcase name="finance workspace" classname="e2e\platform.spec.ts" time="5.738">
+<testcase name="finance workspace" classname="e2e\platform.spec.ts" time="7.578">
 </testcase>
-<testcase name="admin workspace" classname="e2e\platform.spec.ts" time="4.494">
+<testcase name="admin workspace" classname="e2e\platform.spec.ts" time="4.782">
 </testcase>
-<testcase name="mobile navigation and visible simulation notice" classname="e2e\platform.spec.ts" time="4.793">
+<testcase name="mobile navigation and visible simulation notice" classname="e2e\platform.spec.ts" time="4.577">
 </testcase>
 </testsuite>
-<testsuite name="hosted\demo.spec.ts" timestamp="2026-11-25T19:30:20.680Z" hostname="" tests="2" failures="0" skipped="0" time="13.984" errors="0">
-<testcase name="same-origin exported UI hydrates under CSP, refresh cookie survives reload, private files stay inaccessible" classname="hosted\demo.spec.ts" time="6.621">
+<testsuite name="hosted\demo.spec.ts" timestamp="2026-11-25T20:05:10.089Z" hostname="" tests="2" failures="0" skipped="0" time="16.458" errors="0">
+<testcase name="same-origin exported UI hydrates under CSP, refresh cookie survives reload, private files stay inaccessible" classname="hosted\demo.spec.ts" time="7.307">
 </testcase>
-<testcase name="hosted simulation funds a disposable customer, denies staff access and delivers to private Mailpit" classname="hosted\demo.spec.ts" time="7.363">
+<testcase name="hosted simulation funds a disposable customer, denies staff access and delivers to private Mailpit" classname="hosted\demo.spec.ts" time="9.151">
 </testcase>
 </testsuite>
 </testsuites>

@@ -41,6 +41,12 @@
       "failures": 0,
       "skipped": 0,
       "verified": true
+    },
+    "nodeRuntime": {
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "verified": true
     }
   },
   "checks": [

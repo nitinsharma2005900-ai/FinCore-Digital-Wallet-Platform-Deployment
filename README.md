@@ -14,7 +14,7 @@ Free sandbox credential instructions: docs/SANDBOX_CREDENTIALS.md. Free hosting 
 
 Educational digital wallet. **Simulation Only – No Real Money.**
 
-Working educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery, encrypted restore, isolated container runs and the free HTTPS demonstration are verified. Public repositories and branch protections are configured. External sandbox execution, independent review, unresolved image-security findings and always-on production deployment remain incomplete.
+Working educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery, encrypted restore, isolated container runs and the free HTTPS demonstration are verified. Push and pull-request workflows pass strict Node/Render image scans and provenance checks; no security gates were bypassed. Public repositories and branch protections are configured. External sandbox execution, independent review and always-on production deployment remain incomplete.
 
 The stack is Next.js/React/TypeScript, Express, PostgreSQL/Prisma, Redis/BullMQ and a separate Python FastAPI service. PostgreSQL 17 portable binaries, Redis and Mailpit are installed in ignored `.tools` for Windows development without administrator privileges.
 

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-25T19:32:19.721915+00:00",
+  "checkedAt": "2026-11-25T20:06:31.747968+00:00",
   "managementApiAuthenticated": true,
   "webServiceCreated": true,
   "webServiceCreation": "Automatic creation rejected by approval review; user then created the service using the validated Blueprint",
@@ -60,8 +60,8 @@
   "renderBuildStatus": "live",
   "serviceId": "srv-dc3jcibl550s73ek405g",
   "webServicePlan": "free",
-  "deployId": "dep-dc3jcirl550s73ek41n0",
-  "deployedCommit": "d4db93ba34062ac97d4b268530995cf1d0362a09",
+  "deployId": "dep-dc3jt559fdbs73dip1lg",
+  "deployedCommit": "b4ecdaef272b94db5bd7fc6b858f85f8bfb8c3c5",
   "cloudBrowserTests": {
     "tests": 8,
     "failures": 0,
@@ -85,7 +85,7 @@
           "redis": "ok",
           "analytics": "ok"
         },
-        "requestId": "31d6eba8-7d90-40cb-8eea-137689808356"
+        "requestId": "2228eec6-f9ba-468c-8f68-f7db4b8e1c98"
       }
     }
   },
@@ -95,5 +95,7 @@
     "url": "https://fincore-wallet-demo-nitinsharma.onrender.com/api-docs/",
     "browserRendered": true,
     "title": "FinCore Simulation API"
-  }
+  },
+  "runtimeHardening": "Alpine 3.24; production Node dependencies; no npm/yarn/pip/ensurepip runtime installers",
+  "imageSecurityGate": "passed for both scanned runtimes on push and pull_request"
 }
