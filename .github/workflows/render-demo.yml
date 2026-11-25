@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ['deployment/render-free-demo']
-    paths: ['infrastructure/render/**', 'apps/**', 'scripts/render*', 'services/**', 'tests/hosted/**', 'playwright.hosted.config.ts', '.github/workflows/render-demo.yml']
+    paths: ['infrastructure/render/**', 'infrastructure/docker/Node.Dockerfile', 'database/schema.prisma', 'apps/**', 'scripts/render*', 'services/**', 'tests/hosted/**', 'playwright.hosted.config.ts', '.github/workflows/render-demo.yml']
 permissions: {contents: read}
 jobs:
   demo:
