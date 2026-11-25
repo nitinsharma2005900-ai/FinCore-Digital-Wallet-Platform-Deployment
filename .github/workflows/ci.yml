@@ -13,6 +13,9 @@ jobs:
       redis:
         image: redis:7-alpine
         ports: ["6379:6379"]
+      mailpit:
+        image: axllent/mailpit:v1.34.0
+        ports: ["1025:1025", "8025:8025"]
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://fincore_app:ci_app_password@localhost:5432/fincore_test
@@ -29,6 +32,8 @@ jobs:
       LOCAL_WEBHOOK_SECRET: ci_synthetic_webhook_secret_32_characters
       DEMO_PASSWORD: CI_Synthetic_Demo_2026
       SEED_DEMO: "true"
+      SMTP_HOST: 127.0.0.1
+      SMTP_PORT: '1025'
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
@@ -47,10 +52,15 @@ jobs:
       - run: npm run build && npm run docs
       - run: npm audit --audit-level=high
       - run: pip-audit -r services/financial-analytics/requirements.txt
-      - uses: gitleaks/gitleaks-action@v2
-        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+      - name: Scan complete history for secrets, including a repository's initial push
+        run: |
+          curl --fail --location https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz -o "$RUNNER_TEMP/gitleaks_8.30.1_linux_x64.tar.gz"
+          curl --fail --location https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_checksums.txt -o "$RUNNER_TEMP/gitleaks_checksums.txt"
+          (cd "$RUNNER_TEMP" && grep 'gitleaks_8.30.1_linux_x64.tar.gz$' gitleaks_checksums.txt | sha256sum --check --strict)
+          tar -xzf "$RUNNER_TEMP/gitleaks_8.30.1_linux_x64.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/gitleaks" git --log-opts='--all' --no-banner --redact --report-format json --report-path evidence/gitleaks.json .
       - run: npx playwright install --with-deps chromium
-      - run: node --import tsx apps/api/src/server.ts & npm run dev:web & node scripts/wait-for-services.mjs && npm run test:e2e
+      - run: node --import tsx apps/api/src/server.ts & node --import tsx apps/worker/src/index.ts & npm run dev:web & node scripts/wait-for-services.mjs http://127.0.0.1:4000/health http://127.0.0.1:3000 http://127.0.0.1:8081 http://127.0.0.1:8025/api/v1/info && npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with: {name: 'fincore-evidence-${{ github.sha }}', path: 'evidence/'}

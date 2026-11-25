@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests',testMatch:['**/e2e/platform.spec.ts','**/hosted/demo.spec.ts'],workers:1,timeout:90000,expect:{timeout:15000},use:{baseURL:process.env.FINCORE_E2E_BASE_URL||'http://127.0.0.1:3200',headless:true,...(process.platform==='win32'?{channel:'chrome'}:{}),screenshot:'only-on-failure',trace:'retain-on-failure'},reporter:[['list'],['junit',{outputFile:process.env.FINCORE_E2E_REPORT||'evidence/hosted-browser-tests.xml'}]]});

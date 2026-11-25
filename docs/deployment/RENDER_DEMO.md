@@ -1,0 +1,13 @@
+# Optional free Render demonstration
+
+This additive deployment profile preserves the normal Next.js/Express/FastAPI/worker Compose architecture. It exports the same Next.js client UI and serves it from Express on the same HTTPS origin. This keeps refresh cookies first-party and reduces memory use. FastAPI, BullMQ and private Mailpit run as supervised child processes in the same container.
+
+Only the web service, a dedicated Postgres instance and a dedicated Key Value instance use Render's explicit `free` plans. No persistent disk, paid worker, paid scaling or paid database is requested. The web service sleeps on idle, so background work also pauses. Redis and the private Mailpit inbox are ephemeral. The PostgreSQL outbox is authoritative for pending delivery, but the free database expires after 30 days. This is a synthetic demonstration, not an always-on production deployment or completion of the durable cloud assessment.
+
+The API key remains in the ignored local `.env` as `RENDER_API_KEY`. Unique cloud database credentials, JWT/MFA/internal/webhook secrets and `RENDER_DEMO_PASSWORD` are stored there with `RENDER_` prefixes and copied only into protected Render environment variables. The Render API key is never copied into the deployed application. Database and Redis external IP allow lists remain empty. Only the HTTPS application port is public; internal analytics, worker health and Mailpit are bound to loopback.
+
+Startup is explicitly gated by `FINCORE_HOSTED_DEMO=true`, `PAYMENT_PROVIDER=local`, production mode and strong generated demo credentials. The bootstrap creates a restricted application database role, applies the original migrations and initializes synthetic users without resetting existing records. Owner database credentials are removed from the API and worker child environments. Production activation of simulated MFA remains disabled by the existing security rule. Stripe/Twilio and external Stripe refund delivery remain unverified.
+
+Files: `infrastructure/render/Demo.Dockerfile`, `start-demo.mjs`, `scripts/render-bootstrap.ts`, `services/financial-analytics/requirements.runtime.txt`, and the optional export in `apps/web/next.config.mjs`. `FINCORE_SERVE_WEB=true` activates static serving; its content security policy hashes the generated inline scripts instead of allowing arbitrary inline JavaScript.
+
+Official limits: https://render.com/docs/free. Credentials/API setup: https://render.com/docs/api. Actual deployment and browser evidence must be captured before claiming a live URL; configuration alone is not deployment evidence. The original hosted image-security gate and independent-review requirements are retained.

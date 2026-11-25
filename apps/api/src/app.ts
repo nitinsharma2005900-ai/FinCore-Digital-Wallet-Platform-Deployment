@@ -13,8 +13,14 @@ import {staff} from './staff';
 import swaggerUi from 'swagger-ui-express';
 import {openapi} from './openapi';
 import Redis from 'ioredis';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
 export const app=express();
-app.disable('x-powered-by');app.use(requestId,helmet(),cors({origin:config.WEB_ORIGIN,credentials:true}),cookieParser());
+const serveWeb=process.env.FINCORE_SERVE_WEB==='true';
+const webRoot=resolve('apps/web/out');
+const inlineScriptHashes=serveWeb?[...readFileSync(resolve(webRoot,'index.html'),'utf8').matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)].filter(m=>!m[1].includes('src=')).map(m=>"'sha256-"+createHash('sha256').update(m[2]).digest('base64')+"'"):[];
+app.disable('x-powered-by');app.use(requestId,helmet(serveWeb?{contentSecurityPolicy:{directives:{scriptSrc:["'self'",...inlineScriptHashes]}}}:{}),cors({origin:config.WEB_ORIGIN,credentials:true}),cookieParser());
 app.get('/health',(_req,res)=>res.json({status:'ok',service:'fincore-api',simulation:true}));
 app.get('/openapi.json',(_req,res)=>res.json(openapi));
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(openapi));
@@ -25,6 +31,7 @@ app.get('/ready',async(_req,res)=>{
  catch{res.status(503);send(res,{status:'not_ready',message:'A required dependency is unavailable'});}finally{redis.disconnect();}
 });
 app.post('/api/v1/webhooks/payments',express.raw({type:'application/json',limit:'100kb'}),webhook);
+if(serveWeb)app.use(express.static(webRoot,{index:'index.html',dotfiles:'deny'}));
 app.use(express.json({limit:'100kb'}),rateLimit({windowMs:60000,limit:300}));
 app.use('/api/v1/auth',auth);
 app.use('/api/v1',authenticate,customer);
