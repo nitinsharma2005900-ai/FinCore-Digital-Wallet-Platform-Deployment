@@ -14,9 +14,11 @@ Official limits: https://render.com/docs/free. Credentials/API setup: https://re
 
 ## Current deployment and manual continuation
 
+The root `render.yaml` provides an easier **Deploy to Render** option: it references the dedicated private datastores and generates strong application/demo secrets inside Render. No API key or secret is embedded in the Blueprint. The entrypoint derives the restricted application's connection string from the owner connection and generated role password. After deployment, the management API can synchronize the generated credentials into the ignored local `.env` without displaying them.
+
 On 26 November 2026, API authentication succeeded and the dedicated `fincore-demo-db` and `fincore-demo-redis` instances were created on explicit free plans in Singapore with empty external IP allow lists. The database expires at 2026-12-25T19:00:32Z (26 December, 00:30 IST). Automatic approval review rejected creation of the web service with only "blocked by policy" as its reason. The web application has not been deployed and no public application URL is verified.
 
-The same-origin production-mode UI/API profile passed eight local browser checks, including CSP hydration, secure HttpOnly refresh cookies after reload, denied private-file/staff access, customer funding and Mailpit delivery. These do not substitute for running the complete container or testing Render. The isolated container workflow separately exercises bootstrap, migrations and process supervision.
+The same-origin production-mode UI/API profile passed eight local browser checks, including CSP hydration, secure HttpOnly refresh cookies after reload, denied private-file/staff access, customer funding and Mailpit delivery. The separate [container verification run](https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/actions/runs/45683317516) also passed all eight browser tests against the complete container with a 512 MiB memory limit, exercising bootstrap, restricted-role migrations, FastAPI, BullMQ and private Mailpit. Neither run substitutes for verification of the actual public Render service. The user subsequently reported creating a web service, but the current API key does not show a FinCore service; its actual URL is required to verify that deployment.
 
 To finish the authorized free demo manually:
 

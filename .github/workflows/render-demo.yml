@@ -21,7 +21,7 @@ jobs:
         run: |
           node - <<'JS'
           const fs=require('node:fs');
-          const e={POSTGRES_PASSWORD:'CI_Synthetic_Owner_Password_2026',DATABASE_PASSWORD:'CI_Synthetic_Application_Password_2026',DEMO_PASSWORD:process.env.DEMO_PASSWORD};
+          const e={POSTGRES_PASSWORD:'CI_Synthetic_Owner_Password_2026',DATABASE_PASSWORD:'CI_Synthetic_Application_Password_2026+=',DEMO_PASSWORD:process.env.DEMO_PASSWORD};
           for(const key of ['JWT_ACCESS_SECRET','JWT_REFRESH_SECRET','MFA_SECRET','INTERNAL_SERVICE_SECRET','LOCAL_WEBHOOK_SECRET'])e[key]='CI_Synthetic_Secret_For_Container_Verification_2026';
           fs.writeFileSync('.env',Object.entries(e).map(([k,v])=>k+'='+v).join('\n')+'\n');
           JS

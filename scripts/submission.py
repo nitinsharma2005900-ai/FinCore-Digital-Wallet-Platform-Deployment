@@ -16,6 +16,8 @@ def junit(path):
     return {'tests':len(cases),'failures':failed,'skipped':skipped,'verified':bool(cases) and failed==0 and skipped==0}
 results={name:junit(path) for name,path in [('node','evidence/node-tests.xml'),('python','evidence/python-tests.xml'),('browser','evidence/browser-tests.xml')]}
 results['containerBrowser']=junit('evidence/container-browser-tests.xml')
+if (ROOT/'evidence/hosted-browser-tests.xml').exists():results['hostedProfile']=junit('evidence/hosted-browser-tests.xml')
+if (ROOT/'evidence/render-container-browser-tests.xml').exists():results['renderContainer']=junit('evidence/render-container-browser-tests.xml')
 checks=data('evidence/checks.json',[]);capstone=data('evidence/capstone.json',{});delivery=data('evidence/notification-recovery.json',{});coverage=data('coverage/coverage-summary.json',{}).get('total',{})
 docker=data('evidence/docker-runtime.json',{})
 names=['Financial customer frontend','Financial REST APIs','Double-entry ledger database','Financial identity and authorization','Python financial calculations','FastAPI risk analytics','Transfer consistency engine','Payment and notification integrations','Containerized financial stack','Git and change governance','Secure financial CI/CD','Ledger and payment testing','Financial API contracts','Secure deployment and recovery','Financial incident simulation']
@@ -26,7 +28,7 @@ def status(i):
     if i==8:return 'LOCAL SIMULATION ONLY'
     if i==9 and docker.get('verified') and junit('evidence/container-browser-tests.xml')['verified']:return 'COMPLETE AND VERIFIED'
     if i in (9,10,11):return 'IMPLEMENTED BUT NOT VERIFIED'
-    if i==14:return 'BLOCKED BY EXTERNAL CREDENTIALS'
+    if i==14:return 'PARTIALLY VERIFIED; CLOUD DEPLOYMENT PENDING'
     verified=results['python']['verified'] if i in (5,6) else results['browser']['verified'] if i==1 else bool(capstone.get('timeline')) if i==15 else results['node']['verified']
     if i==12:verified=all(r['verified'] for r in results.values())
     return 'COMPLETE AND VERIFIED' if verified else 'IMPLEMENTED BUT NOT VERIFIED'
@@ -35,6 +37,7 @@ if docker.get('verified'):limitations[9]='Isolated fincore-verify Compose stack 
 limitations[10]='Public repository published at github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform with user authorization. See evidence/github-protection-response.json for actual protection setup result; no independent review is fabricated.'
 limitations[11]='Hosted verify job passed, but the image-security gate has unresolved OS advisories. Real run status is in evidence/github-status.json and raw findings in evidence/image-scan.json. No successful overall pipeline is claimed.'
 limitations[14]='Local encrypted restore verified. Render free services do not support the full durable worker architecture. Free full-stack VM/subdomain setup requires manual account provisioning; no paid resource created.'
+if (ROOT/'evidence/render-deployment-status.json').exists():limitations[14]='Render API authenticated; dedicated free PostgreSQL/Redis created with private-only connection access. Optional demo container and browser checks verified separately. Automatic approval review rejected web-service creation; user reports manual creation, but no FinCore service/public HTTPS URL is visible to the current API key. Public deployment remains unverified. The free profile sleeps and its database expires after 30 days; it does not satisfy always-on production requirements.'
 limitations[12]='Coverage is measured over included API/UI modules. Six container browser tests executed successfully; external-credential tests remain unexecuted.'
 evidence=['evidence/browser-tests.xml; evidence/customer-browser.png','evidence/node-tests.xml','evidence/capstone.json; evidence/node-tests.xml','evidence/node-tests.xml','evidence/python-tests.xml; evidence/python-benchmark.json','evidence/python-tests.xml; evidence/capstone.json','evidence/node-tests.xml; evidence/capstone.json','evidence/notification-recovery.json; evidence/capstone.json','docs/deployment/DEPLOYMENT.md','evidence/git-history.txt','evidence/checks.json; evidence/npm-audit.json; evidence/python-audit.json','evidence/node-tests.xml; evidence/python-tests.xml; evidence/browser-tests.xml','docs/openapi.json; postman/FinCore.postman_collection.json','evidence/restore-drill.json','evidence/capstone.json; evidence/notification-recovery.json']
 tests=['tests/e2e/full-workflows.spec.ts; tests/e2e/platform.spec.ts; tests/e2e/management.spec.ts; tests/frontend/table.test.tsx','tests/integration/platform.test.ts','tests/integration/ledger.test.ts; scripts/capstone.ts','tests/integration/platform.test.ts','services/financial-analytics/test_app.py','services/financial-analytics/test_app.py; scripts/capstone.ts','tests/integration/ledger.test.ts','tests/integration/platform.test.ts; scripts/notification-drill.ts','Hosted image/Compose checks pending','Actual local Git hotfix and merge history','scripts/verify.mjs; hosted workflows pending','npm test; npm run test:e2e; pytest','tests/integration/platform.test.ts','python scripts/recovery.py','npm run capstone']
@@ -60,7 +63,7 @@ incident+=['## Recovery confirmation','',f'Final journal: {json.dumps(capstone.g
 (ROOT/'docs/KNOWN_LIMITATIONS.md').write_text('# Remaining limitations and external prerequisites\n\n'+'\n'.join(f'- Assessment {i:02}: {limitations[i]}' for i in (8,9,10,11,14))+'\n\nNo real-money operation, live key, hosted CI, cloud URL or delivered external SMS is represented as completed.\n',encoding='utf-8')
 styles=getSampleStyleSheet();styles['BodyText'].fontSize=9;styles['BodyText'].leading=13
 story=[Paragraph('FinCore',styles['Title']),Paragraph('Digital Wallet, Ledger & Payment Processing Platform',styles['Heading2']),Paragraph('Synthetic educational platform: verified local results and explicit external limitations',styles['BodyText'])]
-documents=['README.md','docs/PROJECT_OVERVIEW.md','ASSESSMENT_MATRIX.md','docs/BROWSER_FUNCTION_CHECK.md','docs/architecture/ARCHITECTURE.md','docs/SECURITY.md','docs/ENVIRONMENT.md','docs/SANDBOX_CREDENTIALS.md','docs/API.md','docs/incidents/INCIDENT_REPORT.md','docs/deployment/DEPLOYMENT.md','docs/deployment/WSL_DOCKER.md','docs/deployment/FREE_HOSTING.md','docs/GOVERNANCE.md','docs/DEMO_SCRIPT.md','docs/KNOWN_LIMITATIONS.md']+[f'docs/assessments/{i:02}.md' for i in range(1,16)]
+documents=['README.md','docs/PROJECT_OVERVIEW.md','ASSESSMENT_MATRIX.md','docs/BROWSER_FUNCTION_CHECK.md','docs/architecture/ARCHITECTURE.md','docs/SECURITY.md','docs/ENVIRONMENT.md','docs/SANDBOX_CREDENTIALS.md','docs/API.md','docs/incidents/INCIDENT_REPORT.md','docs/deployment/DEPLOYMENT.md','docs/deployment/WSL_DOCKER.md','docs/deployment/FREE_HOSTING.md','docs/deployment/RENDER_DEMO.md','docs/GOVERNANCE.md','docs/DEMO_SCRIPT.md','docs/KNOWN_LIMITATIONS.md']+[f'docs/assessments/{i:02}.md' for i in range(1,16)]
 import runpy
 diagrams=runpy.run_path(str(ROOT/'scripts/diagrams.py'))
 for name in ['architecture','entities','sequence']:story.extend([PageBreak(),diagrams[name]])
@@ -71,7 +74,7 @@ for name in documents:
 def footer(canvas,doc):
     canvas.setFont('Helvetica',8);canvas.drawString(42,25,'FinCore | Simulation Only - No Real Money');canvas.drawRightString(550,25,str(doc.page))
 SimpleDocTemplate(str(ROOT/'docs/FinCore_Project_Report.pdf'),title='FinCore Verified Project Report',leftMargin=42,rightMargin=42).build(story,onFirstPage=footer,onLaterPages=footer)
-archive=ROOT/'FinCore_Digital_Wallet_Platform.zip';excluded={'.git','.runtime','.tools','.venv','node_modules','.next','__pycache__','.pytest_cache','coverage','dist','test-results','playwright-report'}
+archive=ROOT/'FinCore_Digital_Wallet_Platform.zip';excluded={'.git','.runtime','.tools','.venv','node_modules','.next','out','__pycache__','.pytest_cache','coverage','dist','test-results','playwright-report'}
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
     for directory,dirs,files in os.walk(ROOT):
         dirs[:]=[d for d in dirs if d not in excluded]

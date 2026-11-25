@@ -1,0 +1,55 @@
+# Free synthetic demonstration only; sleeping/expiry limitations are documented.
+services:
+  - type: web
+    name: fincore-wallet-demo-nitinsharma
+    runtime: docker
+    repo: https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment
+    branch: deployment/render-free-demo
+    plan: free
+    region: singapore
+    dockerfilePath: infrastructure/render/Demo.Dockerfile
+    dockerContext: .
+    healthCheckPath: /ready
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FINCORE_HOSTED_DEMO
+        value: 'true'
+      - key: FINCORE_SERVE_WEB
+        value: 'true'
+      - key: PAYMENT_PROVIDER
+        value: local
+      - key: MIGRATION_DATABASE_URL
+        fromDatabase: {name: fincore-demo-db, property: connectionString}
+      - key: REDIS_URL
+        fromService: {type: keyvalue, name: fincore-demo-redis, property: connectionString}
+      - key: RENDER_DATABASE_PASSWORD
+        generateValue: true
+      - key: RENDER_DEMO_PASSWORD
+        generateValue: true
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: MFA_SECRET
+        generateValue: true
+      - key: INTERNAL_SERVICE_SECRET
+        generateValue: true
+      - key: LOCAL_WEBHOOK_SECRET
+        generateValue: true
+  - type: keyvalue
+    name: fincore-demo-redis
+    plan: free
+    region: singapore
+    maxmemoryPolicy: noeviction
+    persistenceMode: 'off'
+    ipAllowList: []
+databases:
+  - name: fincore-demo-db
+    plan: free
+    region: singapore
+    postgresMajorVersion: '17'
+    databaseName: fincore_demo_20261126
+    user: fincore_owner
+    ipAllowList: []

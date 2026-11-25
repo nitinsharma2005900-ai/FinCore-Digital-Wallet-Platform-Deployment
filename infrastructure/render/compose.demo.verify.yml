@@ -19,7 +19,6 @@ services:
       FINCORE_HOSTED_DEMO: 'true'
       FINCORE_SERVE_WEB: 'true'
       PAYMENT_PROVIDER: local
-      DATABASE_URL: postgresql://fincore_app:${DATABASE_PASSWORD}@postgres:5432/fincore_render_verify
       MIGRATION_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/fincore_render_verify
       RENDER_DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       RENDER_DEMO_PASSWORD: ${DEMO_PASSWORD}

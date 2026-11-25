@@ -1,6 +1,9 @@
 import {spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
 const env={...process.env,NODE_ENV:'production',FASTAPI_SERVICE_URL:'http://127.0.0.1:8001',SMTP_HOST:'127.0.0.1',SMTP_PORT:'1025',SMTP_SECURE:'false',SMS_PROVIDER:'local',EMAIL_PROVIDER:'mailpit',WEB_ORIGIN:process.env.RENDER_EXTERNAL_URL||process.env.WEB_ORIGIN};
 if(env.FINCORE_HOSTED_DEMO!=='true'||env.PAYMENT_PROVIDER!=='local'||!env.WEB_ORIGIN)throw Error('An explicit local-payment hosted demo and canonical origin are required');
+if(env.RENDER_DATABASE_PASSWORD&&!/^[A-Za-z0-9_-]{32,128}$/.test(env.RENDER_DATABASE_PASSWORD))env.RENDER_DATABASE_PASSWORD=createHash('sha256').update(env.RENDER_DATABASE_PASSWORD).digest('hex');
+if(!env.DATABASE_URL&&env.MIGRATION_DATABASE_URL&&env.RENDER_DATABASE_PASSWORD){const uri=new URL(env.MIGRATION_DATABASE_URL);uri.username='fincore_app';uri.password=env.RENDER_DATABASE_PASSWORD;uri.searchParams.set('connection_limit','3');uri.searchParams.set('pool_timeout','15');env.DATABASE_URL=uri.href;}
 const children=[];let stopping=false;
 function stop(code){if(stopping)return;stopping=true;for(const child of children)child.kill('SIGTERM');setTimeout(()=>process.exit(code),1500);}
 function launch(name,args,childEnv=env){const child=spawn(args[0],args.slice(1),{env:childEnv,stdio:'inherit'});children.push(child);child.on('error',()=>{console.error(name+' could not start');stop(1);});child.on('exit',code=>{if(!stopping){console.error(name+' exited ('+code+')');stop(1);}});return child;}

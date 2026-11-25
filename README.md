@@ -2,11 +2,17 @@
 
 Source repository: https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform
 
+Deployment repository: https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nitinsharma2005900-ai/FinCore-Digital-Wallet-Platform-Deployment/tree/deployment/render-free-demo)
+
+Optional free hosted **demonstration**: the button configures the web app, private database/cache and generated secrets. Review that every plan is Free before deploying. The service sleeps and its database expires after 30 days. Public deployment remains unverified until an actual HTTPS URL passes checks. See `docs/deployment/RENDER_DEMO.md`.
+
 Free sandbox credential instructions: docs/SANDBOX_CREDENTIALS.md. Free hosting evaluation and manual setup: docs/deployment/FREE_HOSTING.md. No Gemini integration or paid service is required.
 
 Educational digital wallet. **Simulation Only – No Real Money.**
 
-Working local educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery and encrypted restore are verified. External sandbox execution, Docker runtime, hosted GitHub controls and cloud deployment remain explicitly unverified or blocked.
+Working local educational platform. See `ASSESSMENT_MATRIX.md` for all 15 evidence-based statuses. Local financial flows, staff workspaces, tests, capstone, notification recovery, encrypted restore and isolated container runs are verified. Public repositories and branch protections are configured. External sandbox execution, independent review, unresolved image-security findings and public cloud deployment remain incomplete.
 
 The stack is Next.js/React/TypeScript, Express, PostgreSQL/Prisma, Redis/BullMQ and a separate Python FastAPI service. PostgreSQL 17 portable binaries, Redis and Mailpit are installed in ignored `.tools` for Windows development without administrator privileges.
 
